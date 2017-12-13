@@ -20,14 +20,14 @@ def p1(admin_user_client):
 
 @pytest.fixture
 def p2(admin_user_client):
-    ps = admin_user_client.list_project(name='foo')
+    ps = admin_user_client.list_project(name='qa')
     assert len(ps) == 1
     return ps[0]
 
 
 @pytest.fixture
 def p3(admin_user_client):
-    ps = admin_user_client.list_project(name='bar')
+    ps = admin_user_client.list_project(name='dev')
     assert len(ps) == 1
     return ps[0]
 
@@ -240,7 +240,7 @@ def test_regions_setup(admin_user_client, super_client, p1, p2, p3,
     lb_config = {"portRules": port_rules}
 
     lb = client1. \
-        create_loadBalancerService(name=random_str(),
+        create_loadBalancerService(name="lb",
                                    stackId=stack.id,
                                    launchConfig=launch_config,
                                    lbConfig=lb_config)
@@ -314,7 +314,7 @@ def get_agent(super_client, resourceAccountId):
 
 
 def _create_env_and_svc(client, labels={}):
-    launch_config = {"imageUuid": "docker:ubuntu:latest", "tty": True,
+    launch_config = {"imageUuid": "docker:tutum/dnsutils:latest", "tty": True,
                      "labels": labels}
     random_name = random_str()
     service_name = random_name.replace("-", "")
